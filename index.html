@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopee · Stand Alone Services — Buyer Prototype</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <aside id="rail">
+    <div class="rail-head">
+      <div class="eyebrow">Home Service BR</div>
+      <div class="rail-title">Stand Alone Services</div>
+      <div class="rail-sub">Interactive buyer prototype · screens reused from the journey file</div>
+    </div>
+    <div class="rail-body">
+      <div class="rail-label">Flows</div>
+      <div id="flowList" class="flow-list"></div>
+      <div class="rail-label" style="padding-top:20px">Steps</div>
+      <div id="stepList" class="step-list"></div>
+    </div>
+    <div class="rail-foot">
+      <button id="restartBtn" class="sp-btn sp-outline sp-md">Restart flow</button>
+      <button id="presentBtn" class="sp-btn sp-primary sp-md">Present</button>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div id="meta">
+      <div class="meta-left">
+        <div class="eyebrow" id="flowName"></div>
+        <div class="screen-title" id="screenTitle"></div>
+      </div>
+      <div class="counter" id="stepCounter"></div>
+    </div>
+
+    <div id="device">
+      <div id="notch"></div>
+      <div id="screen"><div id="stage"></div></div>
+    </div>
+
+    <div id="controls">
+      <button id="backBtn" class="sp-btn sp-md ctl">‹ Back</button>
+      <div class="note" id="flowNote"></div>
+      <button id="nextBtn" class="sp-btn sp-md ctl primary">Next ›</button>
+    </div>
+  </main>
+
+  <div id="hud">
+    <button class="hud-btn" data-hud="back" title="Back (←)">‹</button>
+    <div class="hud-mid">
+      <span id="hudFlow"></span>
+      <span id="hudStep"></span>
+    </div>
+    <button class="hud-btn" data-hud="next" title="Next (→)">›</button>
+    <span class="hud-sep"></span>
+    <button class="hud-btn wide" data-hud="menu">Flows</button>
+    <button class="hud-btn wide" data-hud="restart">Restart</button>
+    <button class="hud-btn wide" data-hud="exit" title="Exit presentation (P)">Exit</button>
+    <div id="hudMenu"></div>
+  </div>
+
+</div>
+
+<script src="assets/screens.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
