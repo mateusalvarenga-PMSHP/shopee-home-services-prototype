@@ -9,7 +9,7 @@
 var FLOWS = [
   { id:'happy', name:'Happy flow', sub:'Discovery → booking → service completed', steps:[
     ['home','Shopee home'],['tela-0','See More · Services added'],['loc-v2','Services home · address header'],['3a','Service list · by service'],
-    ['tela-4','Details · dynamic form'],['6a2','Scheduling · nothing picked'],['6a','Scheduling · slot picked'],['6b','Service review page'],
+    ['tela-4','Details · dynamic form'],['tela-provider','Provider profile'],['6a2','Scheduling · nothing picked'],['6a','Scheduling · slot picked'],['6b','Service review page'],
     ['tela-6c','Slot reserved · 30 min'],['tela-7a','Checkout'],['tela-7b','Payment confirmed'],['tela-7b3','Scheduled · service day'],
     ['tela-7b2','Scheduled · PIN released'],['tela-7d0','Professional arrived'],['tela-7d','Service in progress'],['tela-7c','Completed · rating']
   ]},
@@ -26,7 +26,7 @@ var FLOWS = [
     ['tela-endereco','Address gate · new address'],['tela-endereco-b','Address gate · saved'],['tela-2b','Address · coverage OK'],
     ['tela-2c','Address · out of coverage'],['3b','Service list · by provider'],['tela-4b','Details · A/C config'],
     ['tela-7a-pix','Checkout · Pix selected'],['tela-7a-pix-codigo','Pix code · awaiting payment'],['tela-7a-reserva-expirada','Reservation expired'],
-    ['c2b','Cancellation window closed'],['tela-7f','Awaiting new date']
+    ['c2b','Cancellation window closed'],['tela-7f','Awaiting new date'],['tela-7g','Provider no-show']
   ]}
 ];
 
@@ -39,8 +39,9 @@ var HOTS = {
     { all:['Assembly'], exact:true, go:'3a' }
   ],
   '3a': [{ all:['MonteBem','320 sold'], go:'tela-4' }, { all:['By provider'], exact:true, go:'3b' }],
-  '3b': [{ all:['By service'], exact:true, go:'3a' }, { all:['MonteBem','320 sold'], go:'tela-4' }],
-  'tela-4': [{ btn:'Continue', go:'6a2' }],
+  '3b': [{ all:['By service'], exact:true, go:'3a' }, { all:['MonteBem','320 sold'], go:'tela-4' }, { all:['View provider'], exact:true, go:'tela-provider' }],
+  'tela-4': [{ btn:'Continue', go:'6a2' }, { all:['View provider'], exact:true, go:'tela-provider' }],
+  'tela-provider': [{ btn:'See services', go:'3a' }],
   '6a2': [{ btn:'Continue', hint:'Pick a date, then a time window' }],
   '6a': [{ btn:'Continue', go:'6b' }],
   '6b': [{ btn:'Submit request', go:'tela-6c' }],
@@ -60,11 +61,12 @@ var HOTS = {
   'tela-endereco-b': [{ btn:'Use this address', go:'tela-2b' }, { all:['Add new address'], go:'tela-endereco' }],
   'tela-2b': [{ btn:'Continue', go:'loc-v2' }],
   'tela-2c': [{ btn:'Use another address', go:'tela-endereco-b' }],
-  'tela-4b': [{ btn:'Continue', go:'6a2' }],
+  'tela-4b': [{ btn:'Continue', go:'6a2' }, { all:['View provider'], exact:true, go:'tela-provider' }],
   'tela-7a-pix': [{ btn:'Pay now', go:'tela-7a-pix-codigo' }],
   'tela-7a-pix-codigo': [{ btn:'Copy Pix code', hint:'Pix code copied' }],
   'tela-7a-reserva-expirada': [{ btn:'Pick a new slot', go:'6a2' }],
-  'tela-7f': [{ btn:'Pick a slot', go:'c5' }, { btn:'Cancel order', go:'c3' }]
+  'tela-7f': [{ btn:'Pick a slot', go:'c5' }, { btn:'Cancel order', go:'c3' }],
+  'tela-7g': [{ btn:'Reschedule', go:'c5' }, { btn:'Cancel order', go:'c3' }]
 };
 
 var BOOKING = ['6a','6b','tela-6c','tela-7a','tela-7a-pix','tela-7a-pix-codigo','tela-7a-reserva-expirada','tela-7b','tela-7b3','tela-7b2','tela-7d0','tela-7d','tela-7c'];
@@ -322,6 +324,7 @@ var App = {
 
     root.addEventListener('click', function (e) {
       if (e.target.closest('[data-hot]')) return;
+      if (e.target.closest('.rs-tip')) return;
       if (e.target.closest('button, .sp-btn, .sp-tab, .sp-chip, .vm-cell, .sp-product, .sp-flash-card, .sp-ic, .sp-search, .sp-cats-grid > div')) {
         self.toast('Not part of this prototype');
       }
